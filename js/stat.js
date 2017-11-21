@@ -23,7 +23,6 @@ window.renderStatistics = function (ctx, names, times) {
     return max;
   };
 
-
   var histogramHeight = 150;
   var columnWidth = 40;
   var interval = 50;
