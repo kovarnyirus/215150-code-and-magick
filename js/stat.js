@@ -21,7 +21,7 @@ window.renderStatistics = function (ctx, names, times) {
       }
     }
     return max;
-  }
+  };
 
 
   var histogramHeight = 150;
@@ -52,4 +52,4 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillText(names[i], initialX + (interval + columnWidth) * i, initialY + indentText);
     ctx.fillText(Math.round(times[i]), initialX + (interval + columnWidth) * i, initialY - indentText / 2 + times[i] * -step);
   }
-}
+};
