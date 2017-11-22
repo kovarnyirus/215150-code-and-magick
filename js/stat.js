@@ -33,15 +33,15 @@ window.renderStatistics = function (ctx, names, times) {
   var randomValue = function (minValue, maxValue) {
     return Math.random() * (maxValue - minValue) + minValue;
   };
-  var colorPlayers = 'rgb(0, 0, 255)';
   var renderColumn = function () {
     for (var i = 0; i < times.length; i++) {
+      var colorPlayers = 'rgba(0, 0, 255, alpha)'.replace('alpha', randomValue(0.4, 1));
       if (names[i] === 'Вы') {
         ctx.fillStyle = colorYou;
         ctx.fillRect(initialX + (interval + columnWidth) * i, initialY, columnWidth, times[i] * -step);
       } else {
         ctx.fillStyle = colorPlayers;
-        ctx.globalAlpha = randomValue(0.4, 1);
+        // ctx.globalAlpha = randomValue(0.4, 1);
         ctx.fillRect(initialX + (interval + columnWidth) * i, initialY, columnWidth, times[i] * -step);
       }
       ctx.fillStyle = '#000';
