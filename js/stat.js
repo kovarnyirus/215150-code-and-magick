@@ -1,5 +1,13 @@
 'use strict';
 window.renderStatistics = function (ctx, names, times) {
+
+  var HISTOGRAM_HEIGHT = 150;
+  var COLUMN_WIDTH = 40;
+  var INTERVAL = 50;
+  var INITIAL_X = 120;
+  var INITIAL_Y = 250;
+  var INDENT_TEXT = 20;
+  var colorYou = 'rgba(255, 0, 0, 1)';
   var renderCloud = function () {
     //  тень
     ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -13,6 +21,7 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillText('Ура вы победили!', 120, 40);
     ctx.fillText('Список результатов:', 120, 60);
   }
+
   var maxItemArr = function (arr) {
     var max = -1;
     for (var i = 0; i < arr.length; i++) {
@@ -22,34 +31,28 @@ window.renderStatistics = function (ctx, names, times) {
     }
     return max;
   };
-  var HISTOGRAM_HEIGHT = 150;
-  var columnWidth = 40;
-  var interval = 50;
-  var initialX = 120;
-  var initialY = 250;
-  var indentText = 20;
-  var colorYou = 'rgba(255, 0, 0, 1)';
+
   var step = HISTOGRAM_HEIGHT / (maxItemArr(times) - 0);
   var randomValue = function (minValue, maxValue) {
     return Math.random() * (maxValue - minValue) + minValue;
   };
-  var renderColumn = function () {
+
+  var renderColumns = function (times) {
     for (var i = 0; i < times.length; i++) {
       var colorPlayers = 'rgba(0, 0, 255, alpha)'.replace('alpha', randomValue(0.4, 1));
       if (names[i] === 'Вы') {
         ctx.fillStyle = colorYou;
-        ctx.fillRect(initialX + (interval + columnWidth) * i, initialY, columnWidth, times[i] * -step);
       } else {
         ctx.fillStyle = colorPlayers;
-        // ctx.globalAlpha = randomValue(0.4, 1);
-        ctx.fillRect(initialX + (interval + columnWidth) * i, initialY, columnWidth, times[i] * -step);
       }
+      ctx.fillRect(INITIAL_X + (INTERVAL + COLUMN_WIDTH) * i, INITIAL_Y, COLUMN_WIDTH, times[i] * -step);
       ctx.fillStyle = '#000';
       ctx.globalAlpha = 1;
-      ctx.fillText(names[i], initialX + (interval + columnWidth) * i, initialY + indentText);
-      ctx.fillText(Math.round(times[i]), initialX + (interval + columnWidth) * i, initialY - indentText / 2 + times[i] * -step);
+      ctx.fillText(names[i], INITIAL_X + (INTERVAL + COLUMN_WIDTH) * i, INITIAL_Y + INDENT_TEXT);
+      ctx.fillText(Math.round(times[i]), INITIAL_X + (INTERVAL + COLUMN_WIDTH) * i, INITIAL_Y - INDENT_TEXT / 2 + times[i] * -step);
     }
   }
+
   renderCloud()
-  renderColumn()
+  renderColumns(times)
 };
