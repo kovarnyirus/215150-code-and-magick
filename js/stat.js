@@ -20,7 +20,7 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.font = '16  px PT Mono';
     ctx.fillText('Ура вы победили!', 120, 40);
     ctx.fillText('Список результатов:', 120, 60);
-  }
+  };
 
   var maxItemArr = function (arr) {
     var max = -1;
@@ -51,8 +51,8 @@ window.renderStatistics = function (ctx, names, times) {
       ctx.fillText(names[i], INITIAL_X + (INTERVAL + COLUMN_WIDTH) * i, INITIAL_Y + INDENT_TEXT);
       ctx.fillText(Math.round(times[i]), INITIAL_X + (INTERVAL + COLUMN_WIDTH) * i, INITIAL_Y - INDENT_TEXT / 2 + times[i] * -step);
     }
-  }
+  };
 
-  renderCloud()
-  renderColumns(times)
+  renderCloud();
+  renderColumns(times);
 };
