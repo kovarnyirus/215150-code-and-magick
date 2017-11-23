@@ -41,22 +41,26 @@ window.renderStatistics = function (ctx, names, times) {
     return Math.random() * (maxValue - minValue) + minValue;
   };
 
-  var renderColumns = function (data) {
-    for (var i = 0; i < data.length; i++) {
-      var colorPlayers = 'rgba(0, 0, 255, alpha)'.replace('alpha', getRandomValue(0.4, 1));
+  var renderColumns = function (timesArr) {
+    for (var i = 0; i < timesArr.length; i++) {
       var positionX = INITIAL_X + (INTERVAL + COLUMN_WIDTH) * i;
-      var columnHeight = data[i] * -STEP;
+      var columnHeight = timesArr[i] * -STEP;
 
-      if (names[i] === 'Вы') {
-        ctx.fillStyle = COLOR_YOU;
-      } else {
-        ctx.fillStyle = colorPlayers;
-      }
+      var getColumnColor = function (namesArr) {
+        if (namesArr[i] === 'Вы') {
+          ctx.fillStyle = COLOR_YOU;
+        } else {
+          var colorPlayers = 'rgba(0, 0, 255, alpha)'.replace('alpha', getRandomValue(0.4, 1));
+          ctx.fillStyle = colorPlayers;
+        }
+      };
+
+      getColumnColor(names);
       ctx.fillRect(positionX, INITIAL_Y, COLUMN_WIDTH, columnHeight);
       ctx.fillStyle = '#000';
       ctx.globalAlpha = 1;
       ctx.fillText(names[i], positionX, INITIAL_Y + INDENT_TEXT);
-      ctx.fillText(Math.round(data[i]), positionX, INITIAL_Y - INDENT_TEXT / 2 + columnHeight);
+      ctx.fillText(Math.round(timesArr[i]), positionX, INITIAL_Y - INDENT_TEXT / 2 + columnHeight);
     }
   };
 
