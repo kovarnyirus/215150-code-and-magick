@@ -8,6 +8,7 @@ window.renderStatistics = function (ctx, names, times) {
   var INITIAL_Y = 250;
   var INDENT_TEXT = 20;
   var COLOR_YOU = 'rgba(255, 0, 0, 1)';
+  var STEP = HISTOGRAM_HEIGHT / getMaxArrayValue(times);
 
   var renderCloud = function () {
     //  тень
@@ -23,7 +24,7 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillText('Список результатов:', 120, 60);
   };
 
-  var getMaxArrayValue = function (arr) {
+  function getMaxArrayValue (arr) {
     var max = -1;
 
     for (var i = 0; i < arr.length; i++) {
@@ -35,19 +36,17 @@ window.renderStatistics = function (ctx, names, times) {
     return max;
   };
 
-  var STEP = HISTOGRAM_HEIGHT / getMaxArrayValue(times);
-
   var getRandomValue = function (minValue, maxValue) {
     return Math.random() * (maxValue - minValue) + minValue;
   };
 
-  var renderColumns = function (timesArr) {
-    for (var i = 0; i < timesArr.length; i++) {
+  var renderColumns = function (timesArray) {
+    for (var i = 0; i < timesArray.length; i++) {
       var positionX = INITIAL_X + (INTERVAL + COLUMN_WIDTH) * i;
-      var columnHeight = timesArr[i] * -STEP;
+      var columnHeight = timesArray[i] * -STEP;
 
-      var getColumnColor = function (namesArr) {
-        if (namesArr[i] === 'Вы') {
+      var getColumnColor = function (namesArray) {
+        if (namesArray[i] === 'Вы') {
           ctx.fillStyle = COLOR_YOU;
         } else {
           var colorPlayers = 'rgba(0, 0, 255, alpha)'.replace('alpha', getRandomValue(0.4, 1));
@@ -60,7 +59,7 @@ window.renderStatistics = function (ctx, names, times) {
       ctx.fillStyle = '#000';
       ctx.globalAlpha = 1;
       ctx.fillText(names[i], positionX, INITIAL_Y + INDENT_TEXT);
-      ctx.fillText(Math.round(timesArr[i]), positionX, INITIAL_Y - INDENT_TEXT / 2 + columnHeight);
+      ctx.fillText(Math.round(timesArray[i]), positionX, INITIAL_Y - INDENT_TEXT / 2 + columnHeight);
     }
   };
 
