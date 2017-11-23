@@ -7,7 +7,8 @@ window.renderStatistics = function (ctx, names, times) {
   var INITIAL_X = 120;
   var INITIAL_Y = 250;
   var INDENT_TEXT = 20;
-  var colorYou = 'rgba(255, 0, 0, 1)';
+  var COLOR_YOU = 'rgba(255, 0, 0, 1)';
+
   var renderCloud = function () {
     //  тень
     ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -22,34 +23,40 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillText('Список результатов:', 120, 60);
   };
 
-  var maxItemArr = function (arr) {
+  var getMaxArrayValue = function (arr) {
     var max = -1;
+
     for (var i = 0; i < arr.length; i++) {
       if (times[i] > max) {
         max = times[i];
       }
     }
+
     return max;
   };
 
-  var step = HISTOGRAM_HEIGHT / (maxItemArr(times) - 0);
-  var randomValue = function (minValue, maxValue) {
+  var STEP = HISTOGRAM_HEIGHT / getMaxArrayValue(times);
+
+  var getRandomValue = function (minValue, maxValue) {
     return Math.random() * (maxValue - minValue) + minValue;
   };
 
-  var renderColumns = function (times) {
-    for (var i = 0; i < times.length; i++) {
-      var colorPlayers = 'rgba(0, 0, 255, alpha)'.replace('alpha', randomValue(0.4, 1));
+  var renderColumns = function (data) {
+    for (var i = 0; i < data.length; i++) {
+      var colorPlayers = 'rgba(0, 0, 255, alpha)'.replace('alpha', getRandomValue(0.4, 1));
+      var positionX = INITIAL_X + (INTERVAL + COLUMN_WIDTH) * i;
+      var columnHeight = data[i] * -STEP;
+
       if (names[i] === 'Вы') {
-        ctx.fillStyle = colorYou;
+        ctx.fillStyle = COLOR_YOU;
       } else {
         ctx.fillStyle = colorPlayers;
       }
-      ctx.fillRect(INITIAL_X + (INTERVAL + COLUMN_WIDTH) * i, INITIAL_Y, COLUMN_WIDTH, times[i] * -step);
+      ctx.fillRect(positionX, INITIAL_Y, COLUMN_WIDTH, columnHeight);
       ctx.fillStyle = '#000';
       ctx.globalAlpha = 1;
-      ctx.fillText(names[i], INITIAL_X + (INTERVAL + COLUMN_WIDTH) * i, INITIAL_Y + INDENT_TEXT);
-      ctx.fillText(Math.round(times[i]), INITIAL_X + (INTERVAL + COLUMN_WIDTH) * i, INITIAL_Y - INDENT_TEXT / 2 + times[i] * -step);
+      ctx.fillText(names[i], positionX, INITIAL_Y + INDENT_TEXT);
+      ctx.fillText(Math.round(data[i]), positionX, INITIAL_Y - INDENT_TEXT / 2 + columnHeight);
     }
   };
 
