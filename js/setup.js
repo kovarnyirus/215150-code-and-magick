@@ -39,40 +39,58 @@ var EYESCOLOR = [
   'GREEN'
 ];
 var similarArray = [];
-var similarObj = {};
 var similarListElement = document.querySelector('.setup-similar-list');
 var wizardTemplate = document.querySelector('template').content;
 var wizardItem = wizardTemplate.querySelector('.setup-similar-item');
 var setupSimilar = document.querySelector('.setup-similar');
+var COUNTWIZARDS = 4;
 
 
 function getRandomCelValue(minValue, maxValue) {
   return Math.round(Math.random() * (maxValue - minValue) + minValue);
 }
 
-function createSimilarArray() {
-  for (var i = 0; i < 4; i++) {
+function cloneArray(array) {
+  return array.concat();
+}
+
+function getRandomBetween(array, items) {
+  var copyArray = cloneArray(array);
+  var newArray = [];
+  copyArray.sort(compareRandom);
+  newArray.push(array[items]);
+  return newArray;
+}
+
+function compareRandom() {
+  return Math.random() - 0.5;
+}
+
+function createSimilarArray(countwizards) {
+  var similarObj = {};
+  for (var i = 0; i < countwizards; i++) {
     similarObj = {
-      name: NAME.pop(),
-      surname: SURNAME.pop(),
+      name: getRandomBetween(NAME, i),
+      surname: getRandomBetween(SURNAME, i),
       COATCOLOR: COATCOLOR[getRandomCelValue(0, 5)],
       EYESCOLOR: EYESCOLOR[getRandomCelValue(0, 4)]
     };
     similarArray.push(similarObj);
   }
+  renderWizards(similarArray);
 }
 
 function createWizard(wizard) {
   var wizardElement = wizardItem.cloneNode(true);
 
-  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
+  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name + ' ' + wizard.surname;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.COATCOLOR;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.COATCOLOR;
 
   return wizardElement;
 }
 
-function renderWizard(array) {
+function renderWizards(array) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < array.length; i++) {
     fragment.appendChild(createWizard(array[i]));
@@ -80,6 +98,5 @@ function renderWizard(array) {
   similarListElement.appendChild(fragment);
 }
 
-createSimilarArray();
-renderWizard(similarArray);
+createSimilarArray(COUNTWIZARDS);
 setupSimilar.classList.remove('hidden');
