@@ -36,7 +36,7 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillText('Список результатов:', TITLE_INITIAL_X, TITLE_INITIAL_Y + LINE_HEIGHT);
   };
 
-  function getMaxArrayValue (arr) {
+  function getMaxArrayValue(arr) {
     var max = -1;
 
     for (var i = 0; i < arr.length; i++) {
@@ -46,9 +46,9 @@ window.renderStatistics = function (ctx, names, times) {
     }
 
     return max;
-  };
+  }
 
-  function getRandomColor () {
+  function getRandomColor() {
     return 'rgba(0, 0, 255, alpha)'.replace('alpha', getRandomValue(0.4, 1));
   }
 
@@ -56,13 +56,13 @@ window.renderStatistics = function (ctx, names, times) {
     return Math.random() * (maxValue - minValue) + minValue;
   };
 
-  function getColumnColor (name) {
+  function getColumnColor(name) {
     if (name === 'Вы') {
       return COLOR_YOU;
     } else {
       return getRandomColor();
     }
-  };
+  }
 
   var renderColumns = function (timesArray) {
     for (var i = 0; i < timesArray.length; i++) {
